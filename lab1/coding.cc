@@ -6,11 +6,11 @@ using namespace std;
 
 
 
-const char encode(char c){
+ char encode(char c){
   return c + 1;
 }
 
-const char decode (char c){
+ char decode (char c){
   return c - 1;
 }
 
@@ -26,7 +26,7 @@ string encode_str(string s, bool to){
   return newString;
 }
 
-int main (int argc, char* argv[]){
+int not_main (int argc, char* argv[]){
   bool encode = atoi(argv[2]) == 1;
 
 

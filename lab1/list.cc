@@ -87,6 +87,8 @@ void List::remove(int d, DeleteFlag df) {
 				delete curr;
 				curr = prev->next;
 			}
+
+			return;
 		} else{
 			prev = curr;
 			curr = curr->next;

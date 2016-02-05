@@ -11,18 +11,18 @@ CPPFLAGS =  -std=c++11
 CXXFLAGS =  -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast
 CXXFLAGS += -std=c++11
 CXXFLAGS += -g
-LDFLAGS =   -g
+LDFLAGS =   -L. -lfoo
 #CPPFLAGS += -stdlib=libc++
 #CXXFLAGS += -stdlib=libc++
 #LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = ltest
+PROGS = ltest coding
 
 all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
-ltest: ltest.o list.o
+ltest: ltest.o libfoo.a
 
 # Phony targets
 .PHONY: all clean
