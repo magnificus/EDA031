@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 #include "word.h"
+#include <iostream>
+
 
 using namespace std;
 
@@ -16,15 +18,20 @@ unsigned int Word::get_matches(const vector<string>& t) const {
 	int resultCounter = 0;
 	size_t counter1 = 0;
 	size_t counter2 = 0;
+
+	//cout << t.size();
 	while (counter1 < t.size() && counter2 < triagrams.size()){
-		if (t[counter1] == triagrams[counter2]){
+		if (t[counter1].compare(triagrams[counter2]) == 0){
 			resultCounter++;
+			counter1++;
+			counter2++;
 		}
-		if (t[counter1] < triagrams[counter2]){
+		else if (t[counter1].compare(triagrams[counter2]) < 0){
 			counter1++;
 		} else{
 			counter2++;
 		}
 	}
+	//cout << resultCounter;
 	return resultCounter;
 }
