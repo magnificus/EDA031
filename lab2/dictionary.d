@@ -1,1 +1,1 @@
-dictionary.o dictionary.d : dictionary.cc word.h dictionary.h
+dictionary.o dictionary.d : dictionary.cc dictionary.h word.h

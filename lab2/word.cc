@@ -20,18 +20,18 @@ unsigned int Word::get_matches(const vector<string>& t) const {
 	size_t counter2 = 0;
 
 	//cout << t.size();
+
 	while (counter1 < t.size() && counter2 < triagrams.size()){
 		if (t[counter1].compare(triagrams[counter2]) == 0){
 			resultCounter++;
 			counter1++;
 			counter2++;
 		}
-		else if (t[counter1].compare(triagrams[counter2]) < 0){
+		else if (t[counter1].compare(triagrams[counter2]) > 0){
 			counter1++;
 		} else{
 			counter2++;
 		}
 	}
-	//cout << resultCounter;
 	return resultCounter;
 }

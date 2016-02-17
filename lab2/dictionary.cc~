@@ -44,8 +44,8 @@ Dictionary::Dictionary() {
 		string token;
 		pos = str.find(" ");
 		str.erase(0, pos + 1);
-		//pos = str.find(" ");
-	//	str.erase(0, pos + 1);
+		pos = str.find(" ");
+		str.erase(0, pos + 1);
 		while ((pos = str.find(" ")) != string::npos) {
     	token = str.substr(0, pos);
 			trigs.push_back(token);
@@ -71,9 +71,7 @@ vector<string> Dictionary::get_trigs_suggestions(const string& word) {
 	for (size_t i = 3; i <= word.length(); i++){
 		trigs.push_back(word.substr(i-3,3));
 	}
-	sort(trigs.begin(), trigs.end());
 	u_int best_yet = 0;
-
 	for (int i = -1; i <= 1; i++){
 		for (Word w : words[word.size()+i]){
 			if (w.get_matches(trigs) == best_yet){
@@ -125,10 +123,10 @@ vector<string> Dictionary::rank_suggestions(vector<string> list, const string wo
 
 vector<std::string> Dictionary::get_suggestions(const string& word){
 	vector<string> sugg = rank_suggestions(get_trigs_suggestions(word), word);
-
+	if (find(sugg.begin(), sugg.end(), "separate") != sugg.end());
 
 	sugg.resize(5);
-
+	
 	return sugg;
 	//return sugg;
 	//return (sugg, word);
