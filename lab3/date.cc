@@ -37,6 +37,8 @@ int main(){
 	myDate >> date;
 	cout << toString(date);
 
+	//date >> "1023-";
+
 	try {
 		int i = string_cast<int>("123");
 		cout << std::endl;
@@ -85,13 +87,25 @@ istream& Date::parseDate(std::istream& is)
 	std::string in(std::istreambuf_iterator<char>(is), {});
 
 	int currentPos = 0;
-	int target = in.find("-");
+	size_t target = in.find("-");
+	if (target == in.size()-1){
+		is.setstate(ios::failbit);
+		return is;
+	}
 	year = stoi(in.substr(currentPos, target));
 	currentPos = target+1;
 	target = in.find("-", target+1);
+	if (target == in.size()-1){
+		is.setstate(ios::failbit);
+		return is;
+	}
 	month = stoi(in.substr(currentPos, target));
 	currentPos = target+1;
 	target = in.find("-", target+1);
+	if (target == in.size()-1){
+		is.setstate(ios::failbit);
+		return is;
+	}
 	day = stoi(in.substr(currentPos, target));
 
 
