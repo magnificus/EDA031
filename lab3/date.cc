@@ -9,16 +9,48 @@ using namespace std;
 
 int Date::daysPerMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+
+template<typename T>
+string toString(T obj){
+	stringstream ss;
+	ss << obj;
+  string myString = ss.str();
+	return myString;
+}
+
+
+template <typename T>
+T string_cast (string s) {
+	T obj;
+	stringstream convert(s);
+	convert >> obj;
+	return obj;
+}
+
+
+
 int main(){
-	Date* date = new Date();
-	//istream tempdate;
-	//tempdate << "2015-32-22";
-	//date << tempdate;
-	//ostream s;
-	//date >> s;
-	//date << tempdate;
-	cout << *date;
-	//delete date;
+	Date date;
+	cout << toString(date);
+	int ass = 12333;
+	stringstream myDate("2016-23-11");
+	myDate >> date;
+	cout << toString(date);
+
+	try {
+		int i = string_cast<int>("123");
+		cout << std::endl;
+		cout << i;
+		double d = string_cast<double>("12.34");
+		cout << std::endl;
+		cout << d;
+		Date date = string_cast<Date>("2015-01-10");
+		cout << std::endl;
+		cout << date;
+	} catch (std::invalid_argument& e) {
+		cout << "Error: " << e.what() << endl;
+	}
+
 }
 
 Date::Date() {
@@ -47,20 +79,20 @@ int Date::getDay() const {
 	return day;
 }
 
-istream& Date::parseDate(std::istream& is) const
+
+istream& Date::parseDate(std::istream& is)
 {
 	std::string in(std::istreambuf_iterator<char>(is), {});
 
 	int currentPos = 0;
 	int target = in.find("-");
-	day = stoi(in.substr(currentPos, target));
+	year = stoi(in.substr(currentPos, target));
 	currentPos = target+1;
 	target = in.find("-", target+1);
 	month = stoi(in.substr(currentPos, target));
 	currentPos = target+1;
 	target = in.find("-", target+1);
-	year = stoi(in.substr(currentPos, target));
-
+	day = stoi(in.substr(currentPos, target));
 
 
   return is;
@@ -79,10 +111,7 @@ istream& Date::parseDate(std::istream& is) const
 
 std::ostream& Date::printDate(std::ostream & out) const
 {
-		//cout << "day: " << day << " month:" << month << " year: " << year;
 		out << to_string(year) << "-" << to_string(month) << "-" << to_string(day);
-		//out << "asd";
-		//cout << "fuck allM";
 		return out;
 }
 

@@ -17,12 +17,16 @@ public:
 	void incrementMonth();
 	void incrementDay();
 
+	template<typename T>
+	string toString(T& obj);
+	//string toString(Date *d);
+
 	std::ostream& printDate(std::ostream & out) const;
-	std::istream& parseDate(std::istream & is) const;
+	std::istream& parseDate(std::istream & is);
 
 
-	friend istream &operator>>(istream& is, const Date& date);
-	friend ostream &operator<<(ostream& os, const Date& date);
+	friend istream &operator>>(istream& is, Date& date);
+	friend ostream &operator<<(ostream& os, Date& date);
 	//ostream& operator<<(std::ostream& os);
 
 private:
@@ -32,14 +36,15 @@ private:
 	static int daysPerMonth[12]; // number of days in each month
 };
 
-ostream &operator<<(ostream& os, const Date& date)
+ostream &operator<<(ostream& os, Date& date)
 {
-    return date.printDate(os); //just one line!
+    return date.printDate(os);
 }
 
-istream &operator>>(istream& is, const Date& date)
+istream &operator>>(istream& is, Date& date)
 {
-    return date.parseDate(is); //just one line!
+    return date.parseDate(is);
 }
+
 
 #endif
