@@ -23,6 +23,9 @@ template <typename T>
 T string_cast (string s) {
 	T obj;
 	stringstream convert(s);
+	if (!convert){
+		throw std::invalid_argument(s);
+	}
 	convert >> obj;
 	return obj;
 }
@@ -49,6 +52,7 @@ int main(){
 		Date date = string_cast<Date>("2015-01-10");
 		cout << std::endl;
 		cout << date;
+		date = string_cast<Date>("what what");
 	} catch (std::invalid_argument& e) {
 		cout << "Error: " << e.what() << endl;
 	}
@@ -85,6 +89,9 @@ int Date::getDay() const {
 istream& Date::parseDate(std::istream& is)
 {
 	std::string in(std::istreambuf_iterator<char>(is), {});
+//	int y, d, m; char c1, c2;
+//	is >> y >> c1 >> m >> c2 >> d;
+
 
 	int currentPos = 0;
 	size_t target = in.find("-");

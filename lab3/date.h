@@ -25,8 +25,8 @@ public:
 	std::istream& parseDate(std::istream & is);
 
 
-	friend istream &operator>>(istream& is, Date& date);
-	friend ostream &operator<<(ostream& os, Date& date);
+	friend istream& operator>>(istream& is, Date& date);
+	friend ostream& operator<<(ostream& os, Date& date);
 	//ostream& operator<<(std::ostream& os);
 
 private:

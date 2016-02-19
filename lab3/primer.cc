@@ -9,6 +9,7 @@ int size = 100000;
 
 int main(){
     string s = "CC";
+    //string whole(size, 'P');
     for (int i = 2; i < size; i++){
       s.append("P");
     }
@@ -16,10 +17,8 @@ int main(){
     int currentPrime = 0;
     while (currentPrime < 1000){
       currentPrime = s.find("P", currentPrime+1);
-      for (int index = currentPrime+1; index < size; index++){
-        if (index % currentPrime == 0){
+      for (int index = currentPrime+1; index < size; index+= currentPrime){
           s.replace(index, 1, "C");
-        }
       }
     }
 
