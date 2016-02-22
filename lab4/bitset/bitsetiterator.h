@@ -12,19 +12,19 @@
 class BitsetIterator : public std::iterator<std::forward_iterator_tag, bool> {
 public:
 	BitsetIterator(Bitset::BitStorage* pb, std::size_t p) : ref(pb, p) {}
-	
+
 	bool operator!=(const BitsetIterator& bsi) const {
 		return true;
 	}
-	
+
 	BitsetIterator& operator++() {
 		return *this;
 	}
-	
+
 	BitReference operator*() {
 		return ref;
 	}
-	
+
 	BitsetIterator& operator=(const BitsetIterator& rhs) {
 		ref.p_bits = rhs.ref.p_bits;
 		ref.pos = rhs.ref.pos;
@@ -35,4 +35,3 @@ private:
 };
 
 #endif
-

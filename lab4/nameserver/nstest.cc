@@ -1,11 +1,24 @@
 /*
  * nstest.cc: a program to test the name server implementations.
  */
-#include "nameserverinterface.h"
+
+
+
+//Element count: 1000000
+//std::vector time:        746000
+//std::unordered_map time: 12654000
+//std::map time:           154060000
+
+
 #include "vns.h"
+#include "vns.cc"
+#include "nameserverinterface.h"
 #include "mns.h"
+#include "mns.cc"
 #include "umns.h"
+#include "umns.cc"
 #include "hns.h"
+#include "hns.cc"
 #include <iostream>
 #include <cassert>
 
@@ -29,21 +42,21 @@ int main() {
 	VNS vns;
 	test(vns);
 	cout << "Vector passed ..." << endl;
-	
+
 	/*
 	 * Test the map name server.
 	 */
 	MNS mns;
 	test(mns);
 	cout << "Map passed ..." << endl;
-	
+
 	/*
 	 * Test the unordered map name server.
 	 */
 	UMNS umns;
 	test(umns);
 	cout << "Unordered map passed ..." << endl;
-	
+
 	/*
 	 * Test the hash name server.
 	 * The parameter to the constructor is the size of the

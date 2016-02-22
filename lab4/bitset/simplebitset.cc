@@ -28,3 +28,7 @@ void SimpleBitset::set(size_t pos, bool b) {
 		bits &= ~ (1L << pos);
 	}
 }
+
+bool SimpleBitset::operator[](std::size_t idx){
+	return &bits + idx;
+}

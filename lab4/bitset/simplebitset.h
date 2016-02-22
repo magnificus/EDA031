@@ -8,13 +8,18 @@
 
 #include <cstddef> /* size_t */
 #include <limits>  /* numeric_limits */
+using namespace std;
 
-class SimpleBitset {
+class SimpleBitset : input_iterator, output_iterator {
 public:
 	SimpleBitset();
-	std::size_t size() const;
-	bool get(std::size_t pos) const;
-	void set(std::size_t pos, bool b);
+	size_t size() const;
+	bool get(size_t pos) const;
+	void set(size_t pos, bool b);
+	bool operator[](size_t idx);
+
+}
+
 private:
 	using BitStorage = unsigned long;
 	BitStorage bits;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "simplebitset.h"
+#include "simplebitset.cc"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ int main() {
 	}
 	print(bs);
 	cout << endl;
-	
+
 	// Find the first five bits that are set, complement them, print
 	size_t cleared = 0;
 	size_t pos = 0;
@@ -30,7 +31,7 @@ int main() {
 	}
 	print(bs);
 	cout << endl;
-	
+
 	// Count the number of set bits, print
 	size_t set = 0;
 	for (size_t i = 0; i != bs.size(); ++i) {
