@@ -1,10 +1,12 @@
 #include <iostream>
 #include "bitset.h"
+#include "bitset.cc"
 #include "bitreference.h"
+#include "bitreference.cc"
 
 /*
  *         TEST, VERSION 1
- * There are two versions of the test program. The first version uses 
+ * There are two versions of the test program. The first version uses
  * only operator[] and BitReferences. When this works, implement
  * the class BitsetIterator and use version 2 in bitsettest2.cc.
  *
@@ -21,12 +23,14 @@ void print(const Bitset& bs) {
 int main() {
 	// Define an empty bitset, set every third bit, print
 	Bitset bs;
+
 	for (size_t i = 0; i < bs.size(); i += 3) {
 		bs[i] = true;
 	}
+
 	print(bs);
 	cout << endl;
-	
+
 	// Find the first five bits that are set, complement them, print
 	size_t cleared = 0;
 	size_t pos = 0;

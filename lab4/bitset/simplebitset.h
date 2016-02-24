@@ -10,7 +10,7 @@
 #include <limits>  /* numeric_limits */
 using namespace std;
 
-class SimpleBitset : input_iterator, output_iterator {
+class SimpleBitset{
 public:
 	SimpleBitset();
 	size_t size() const;
@@ -18,7 +18,6 @@ public:
 	void set(size_t pos, bool b);
 	bool operator[](size_t idx);
 
-}
 
 private:
 	using BitStorage = unsigned long;
