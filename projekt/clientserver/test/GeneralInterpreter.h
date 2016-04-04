@@ -2,13 +2,14 @@
 #include "connection.h"
 #include <string>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
 class GeneralInterpreter{
 
 public:
-	GeneralInterpreter(Connection *conn);
+	GeneralInterpreter(shared_ptr<Connection> conn);
 
 	void write_number(int num);
 	void write_string(string str);
@@ -17,6 +18,6 @@ public:
 	int parse_number();
 
 protected:
-	Connection* c;
+	shared_ptr<Connection> c;
 
 };

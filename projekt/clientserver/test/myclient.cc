@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	Connection *conn = new Connection(argv[1], port);
+	shared_ptr<Connection> conn(new Connection(argv[1], port));
 	if (!conn->isConnected()) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);

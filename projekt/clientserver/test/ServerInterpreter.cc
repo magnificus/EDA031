@@ -3,15 +3,16 @@
 
 using namespace std;
 
-void ServerInterpreter::parse(unsigned char in){
+string ServerInterpreter::parse(){
+	unsigned char in = c->read();
 	switch(in){
-		case Protocol::COM_LIST_NG: cout << "list newsgroup"; break;
-		case Protocol::COM_CREATE_NG: cout << "create newsgroup"; break;
-		case Protocol::COM_DELETE_NG: cout << "delete newsgroup"; break;
-		case Protocol::COM_LIST_ART: cout << "list articles"; break;
-		case Protocol::COM_CREATE_ART: cout << "create article"; break;
-		case Protocol::COM_DELETE_ART: cout << "delete article"; break;
-		case Protocol::COM_GET_ART: cout << "get article"; break;
-		default: cout << "nigger";
+		case Protocol::COM_LIST_NG: return "list newsgroup";
+		case Protocol::COM_CREATE_NG: return "create newsgroup";
+		case Protocol::COM_DELETE_NG: return "delete newsgroup";
+		case Protocol::COM_LIST_ART: return "list articles";
+		case Protocol::COM_CREATE_ART: return "create article";
+		case Protocol::COM_DELETE_ART: return "delete article";
+		case Protocol::COM_GET_ART: return "get article";
+		default: return "nigger";
 	}
 }

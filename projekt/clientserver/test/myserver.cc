@@ -2,6 +2,7 @@
 #include "server.h"
 #include "connection.h"
 #include "connectionclosedexception.h"
+#include "ServerInterpreter.h"
 
 #include <memory>
 #include <iostream>
@@ -51,21 +52,15 @@ int main(int argc, char* argv[]){
 		cerr << "Server initialization error." << endl;
 		exit(1);
 	}
-	
+
 	while (true) {
 		auto conn = server.waitForActivity();
+		ServerInterpreter SI(conn);
 		if (conn != nullptr) {
 			try {
-				int nbr = readNumber(conn);
-				string result;
-				if (nbr > 0) {
-					result = "positive";
-				} else if (nbr == 0) {
-					result = "zero";
-				} else {
-					result = "negative";
-				}
-				writeString(conn, result);
+				string result = SI.parse();
+				cout << result;
+				cout << flush;
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
 				cout << "Client closed connection" << endl;

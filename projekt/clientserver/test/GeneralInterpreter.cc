@@ -2,7 +2,7 @@
 using namespace std;
 
 
-GeneralInterpreter::GeneralInterpreter(Connection *conn) {c = conn;}
+GeneralInterpreter::GeneralInterpreter(shared_ptr<Connection> conn) {c = conn;}
 
 void GeneralInterpreter::write_string(string s){
 	c->write(Protocol::PAR_STRING);
