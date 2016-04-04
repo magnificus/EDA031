@@ -54,16 +54,16 @@ void ClientInterpreter::get_a(int n1, int n2){
 void ClientInterpreter::handleAnswer(){
 	unsigned char recieved = c->read();
 	switch(recieved){
-		case Protocol::ANS_LIST_NG: cout << "recieved ANS_LIST_NG" << endl; ANS_LIST_NG();
-		case Protocol::ANS_CREATE_NG: cout << "recieved ANS_CREATE_NG" << endl; ANS_CREATE_NG();
-		case Protocol::ANS_DELETE_NG: cout << "recieved ANS_DELETE_NG" << endl; ANS_DELETE_NG();
-		case Protocol::ANS_LIST_ART: cout << "recieved ANS_LIST_ART" << endl; ANS_LIST_ART();
-		case Protocol::ANS_CREATE_ART: cout << "recieved ANS_CREATE_ART" << endl; ANS_CREATE_ART();
-		case Protocol::ANS_DELETE_ART: cout << "recieved ANS_DELETE_ART" << endl; ANS_DELETE_ART();
-		case Protocol::ANS_GET_ART: cout << "recieved ANS_GET_ART" << endl; ANS_GET_ART();
-		case Protocol::ANS_END: cout << "recieved ANS_END" << endl;
-		case Protocol::ANS_ACK: cout << "recieved ANS_ACK" << endl;
-		case Protocol::ANS_NAK: cout << "recieved ANS_NAK" << endl;
+		case Protocol::ANS_LIST_NG: cout << "recieved ANS_LIST_NG" << endl; ANS_LIST_NG(); break;
+		case Protocol::ANS_CREATE_NG: cout << "recieved ANS_CREATE_NG" << endl; ANS_CREATE_NG(); break;
+		case Protocol::ANS_DELETE_NG: cout << "recieved ANS_DELETE_NG" << endl; ANS_DELETE_NG(); break;
+		case Protocol::ANS_LIST_ART: cout << "recieved ANS_LIST_ART" << endl; ANS_LIST_ART(); break;
+		case Protocol::ANS_CREATE_ART: cout << "recieved ANS_CREATE_ART" << endl; ANS_CREATE_ART(); break;
+		case Protocol::ANS_DELETE_ART: cout << "recieved ANS_DELETE_ART" << endl; ANS_DELETE_ART(); break;
+		case Protocol::ANS_GET_ART: cout << "recieved ANS_GET_ART" << endl; ANS_GET_ART(); break;
+		case Protocol::ANS_END: cout << "recieved ANS_END" << endl; break;
+		case Protocol::ANS_ACK: cout << "recieved ANS_ACK" << endl; break;
+		case Protocol::ANS_NAK: cout << "recieved ANS_NAK" << endl; break;
 		default: cout << "could not interpret";
 	};
 }
@@ -77,32 +77,93 @@ void ClientInterpreter::ANS_LIST_NG(){
 	cout << "There are: " << nbr;
 	
 	for (unsigned char i = 0; i < nbr; i++){
-		cout << "id: " << c->read() << "name: " <<parse_string() << endl;
+		cout << "Id: " << parse_number() << " Name: " << parse_string() << endl;
 	}
+
+	c->read();
 
 }
 
 void ClientInterpreter::ANS_CREATE_NG(){
+	switch(c->read()){
+		case Protocol::ANS_ACK: cout << "Created newsgroup" << endl; break;
+		case Protocol::ANS_NAK: cout << "Unable to create newsgroup"; if (c->read() == Protocol::ERR_NG_ALREADY_EXISTS) cout << ", group already exists." << endl; break;
+	}
 
+	c->read();
 
 }
 
 void ClientInterpreter::ANS_DELETE_NG(){
+	switch(c->read()){
+		case Protocol::ANS_ACK: cout << "Deleted newsgroup" << endl; break;
+		case Protocol::ANS_NAK: cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
+	}
 
+	c->read();
 }
 
 void ClientInterpreter::ANS_LIST_ART(){
+	cout << "Listing articles in newsgroup: " << endl;
+	switch(c->read()){
+		case Protocol::ANS_ACK: {
+			unsigned char nbr = c->read();
+			for (unsigned char i = 0; i < nbr; i++){
+				cout << "Id: " << parse_number() << " Name: " << parse_string() << endl; 
+			} break;
+
+		}
+		case Protocol::ANS_NAK: {
+			cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
+		}
+
+	}
+
+	c->read();
 
 }
 
 void ClientInterpreter::ANS_CREATE_ART(){
+	switch(c->read()){
+		case Protocol::ANS_ACK: cout << "Created article" << endl; break;
+		case Protocol::ANS_NAK: cout << "Unable to create article"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
+	}
+
+	c->read();
 
 }
 
 void ClientInterpreter::ANS_DELETE_ART(){
+	switch(c->read()){
+		case Protocol::ANS_ACK: cout << "Created article" << endl; break;
+		case Protocol::ANS_NAK: {
+			cout << "Unable to delete article";
+			switch(c->read()){
+				case Protocol::ERR_NG_DOES_NOT_EXIST: cout << ", group does not exist"; break;
+				case Protocol::ERR_ART_DOES_NOT_EXIST: cout << ", article does not exist"; break;
+			}
+		}
+	}
+
+	c->read();
+
 
 }
 
 void ClientInterpreter::ANS_GET_ART(){
+	switch(c->read()){
+		case Protocol::ANS_GET_ART: {
+			c->read();
+			cout << "Title: " << parse_string() << endl << "Author: " << parse_string() << endl << "Text: " << parse_string() << endl;
+		} break;
+		case Protocol::ANS_NAK: {
+			cout << "Unable to delete article";
+			switch(c->read()){
+				case Protocol::ERR_NG_DOES_NOT_EXIST: cout << ", group does not exist" << endl;
+				case Protocol::ERR_ART_DOES_NOT_EXIST: cout << ", article does not exist" << endl;;
+			} break;
+		}
+	}
 
+	c->read();
 }
