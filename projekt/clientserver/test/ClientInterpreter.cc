@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ClientInterpreter::ClientInterpreter(Connection* conn) : GeneralInterpreter(conn) {};
+
 
 void ClientInterpreter::list_ng(){
 	c->write(Protocol::COM_LIST_NG);
