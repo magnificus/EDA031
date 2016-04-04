@@ -9,6 +9,10 @@ public:
 	void list_ng();
 	void create_ng(string s);
 	void delete_ng(string s);
+	void list_a(int n);
+	void create_a(int n, string s1, string s2, string s3);
+	void delete_a(int n1, int n2);
+	void get_a(int n1, int n2);
 
 
 };

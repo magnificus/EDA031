@@ -14,7 +14,7 @@ void ClientInterpreter::create_ng(string s){
 }
 
 void ClientInterpreter::delete_ng(string s){
-
+	
 }
 
 int main(){

@@ -35,7 +35,3 @@ string GeneralInterpreter::parse_string() {
 	}
 	return s;
 }
-
-int main(){
-
-}
