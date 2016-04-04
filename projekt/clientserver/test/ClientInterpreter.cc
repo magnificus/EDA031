@@ -50,3 +50,20 @@ void ClientInterpreter::get_a(int n1, int n2){
 	c->write(Protocol::COM_END);
 
 }
+
+void ClientInterpreter::handleAnswer(){
+	unsigned char recieved = c->read();
+	switch(recieved){
+		case Protocol::ANS_LIST_NG: cout << "recieved ANS_LIST_NG";
+		case Protocol::ANS_CREATE_NG: cout << "recieved ANS_CREATE_NG";
+		case Protocol::ANS_DELETE_NG: cout << "recieved ANS_DELETE_NG";
+		case Protocol::ANS_LIST_ART: cout << "recieved ANS_LIST_ART";
+		case Protocol::ANS_CREATE_ART: cout << "recieved ANS_CREATE_ART";
+		case Protocol::ANS_DELETE_ART: cout << "recieved ANS_DELETE_ART";
+		case Protocol::ANS_GET_ART: cout << "recieved ANS_GET_ART";
+		case Protocol::ANS_END: cout << "recieved ANS_END";
+		case Protocol::ANS_ACK: cout << "recieved ANS_ACK";
+		case Protocol::ANS_NAK: cout << "recieved ANS_NAK";
+		default: cout << "could not interpret";
+	};
+}
