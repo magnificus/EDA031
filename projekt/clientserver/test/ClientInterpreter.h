@@ -1,16 +1,14 @@
-#include "protocol.h"
-#include "connection.h"
+#include "GeneralInterpreter.h"
 
 using namespace std;
-class ClientInterpreter{
+
+class ClientInterpreter : public GeneralInterpreter{
 public:
-	ClientInterpreter(Connection &conn) c(conn) {} ;
+	//ClientInterpreter(Connection& conn) { super(conn); }
 
 	void list_ng();
-	void create_ng();
-	void delete_ng();
+	void create_ng(string s);
+	void delete_ng(string s);
 
 
-private:
-	Connection c;
-}
+};
