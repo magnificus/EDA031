@@ -2,9 +2,9 @@
 
 using namespace std;
 
-class ClientInterpreter : public GeneralInterpreter{
+class ClientInterpreter : GeneralInterpreter{
 public:
-	ClientInterpreter::ClientInterpreter(Connection *conn) : GeneralInterpreter(conn) {};
+	ClientInterpreter(Connection *conn) : GeneralInterpreter(conn) {};
 
 	void list_ng();
 	void create_ng(string s);

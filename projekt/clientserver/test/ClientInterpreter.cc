@@ -50,4 +50,3 @@ void ClientInterpreter::get_a(int n1, int n2){
 	c->write(Protocol::COM_END);
 
 }
-
