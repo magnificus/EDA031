@@ -1,2 +1,2 @@
 myclient.o myclient.d : myclient.cc ../connection.h ../connectionclosedexception.h \
- ../protocol.h ClientInterpreter.h
+ ../protocol.h ClientInterpreter.h GeneralInterpreter.h
