@@ -77,8 +77,7 @@ void ClientInterpreter::ANS_LIST_NG(){
 	cout << "There are: " << nbr;
 	
 	for (unsigned char i = 0; i < nbr; i++){
-		unsigned char id = c->read();
-		cout << parse_string();
+		cout << "id: " << c->read() << "name: " <<parse_string() << endl;
 	}
 
 }
