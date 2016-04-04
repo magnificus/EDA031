@@ -13,7 +13,7 @@ public:
 	void write_number(int num);
 	void write_string(string str);
 
-	string parse_string();
+	string parse_string(int length);
 	int parse_number();
 
 protected:

@@ -13,8 +13,17 @@ public:
 	void create_a(int n, string s1, string s2, string s3);
 	void delete_a(int n1, int n2);
 	void get_a(int n1, int n2);
+	
 
 	void handleAnswer();
+
+	void ANS_LIST_NG();
+	void ANS_CREATE_NG();
+	void ANS_DELETE_NG();
+	void ANS_LIST_ART();
+	void ANS_CREATE_ART();
+	void ANS_DELETE_ART();
+	void ANS_GET_ART();
 
 
 };

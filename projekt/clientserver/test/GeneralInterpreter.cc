@@ -29,11 +29,10 @@ int GeneralInterpreter::parse_number() {
 	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
 }
 
-string GeneralInterpreter::parse_string() {
+string GeneralInterpreter::parse_string(int length) {
 	string s;
-	char ch;
-	while ((ch = c->read()) != '$') {
-		s += ch;
+	for (unsigned char i = 0; i < length; i++){
+		s += c->read();
 	}
 	return s;
 }
