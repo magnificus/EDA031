@@ -69,19 +69,22 @@ void ClientInterpreter::handleAnswer(){
 }
 
 void ClientInterpreter::ANS_LIST_NG(){
+	cout << "Listing Newsgroups: " << endl;
 	if (c->read() != Protocol::PAR_NUM){
 		return;
 	}
 	unsigned char nbr = c->read();
+	cout << "There are: " << nbr;
 	
 	for (unsigned char i = 0; i < nbr; i++){
-		unsigned char str_len = c->read();
-		parse_string(str_len);
+		unsigned char id = c->read();
+		cout << parse_string();
 	}
 
 }
 
 void ClientInterpreter::ANS_CREATE_NG(){
+
 
 }
 
