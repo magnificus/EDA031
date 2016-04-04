@@ -1,5 +1,4 @@
 #include "ServerInterpreter.h"
-#include "localdata.h"
 #include <iostream>
 
 using namespace std;
