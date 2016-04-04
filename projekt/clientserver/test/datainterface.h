@@ -2,6 +2,7 @@
 #define _DATA_INTERFACE
 
 #include <vector>
+#include <string>
 
 using namespace std;
 

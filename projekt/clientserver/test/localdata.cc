@@ -1,4 +1,7 @@
 #include "localdata.h"
+#include "protocol.h"
+#include <stdexcept>
+#include <algorithm>
 
 
 bool LocalData::create_ng(string title){
@@ -7,12 +10,15 @@ bool LocalData::create_ng(string title){
 			return false;
 		}
 	}
-	newsgroups.push_back(new Newsgroup(++newsGroupsNbr, title))
+	Newsgroup newG;
+	newG.newsGroupsNbr = ++newsGroupsNbr;
+	newG.title = title;
+	newsgroups.push_back(newG);
 	return true;
 }
 
 bool LocalData::delete_ng(int nbr){
-	auto pos = newsgroups.erase(remove(newsgroups.begin(), newsgroups.end(), nbr), newsgroups.end());
+	auto pos = newsgroups.erase(remove_if(newsgroups.begin(), newsgroups.end(), [nbr](Newsgroup g){return g.newsGroupsNbr == nbr;}), newsgroups.end());
 	return pos != newsgroups.end();
 }
 
@@ -22,13 +28,19 @@ Newsgroup LocalData::list_a(int newsGroupsNbr){
 			return n;
 		}
 	}
-	return NULL;
+	throw Protocol::ERR_NG_DOES_NOT_EXIST;
 }
 
 bool LocalData::create_a(int newsGroupsNbr, string title, string author, string text){
 	for(Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
-			n.articles.push_back(new Article(++articleNbr, newsGroupsNbr, title, author, text));
+			Article a;
+			a.articleNbr = ++articleNbr;
+			a.newsGroupsNbr = newsGroupsNbr;
+			a.title = title;
+			a.author = author;
+			a.text = text;
+			n.articles.push_back(a);
 			return true;
 		}
 	}
@@ -39,7 +51,7 @@ int LocalData::delete_a(int newsGroupsNbr, int articleNbr){
 
 	for(Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
-			auto pos = n.articles.erase(remove(n.articles.begin(), n.articles.end(), articleNbr), n.articles.end());
+			auto pos = n.articles.erase(remove_if(n.articles.begin(), n.articles.end(), [articleNbr](Article a){return a.articleNbr == articleNbr;}), n.articles.end());
 			return pos != n.articles.end() ? 0 : -1; //ArticleNbr exist?
 		}
 	}
@@ -54,7 +66,9 @@ Article LocalData::get_a(int newsGroupsNbr, int articleNbr){
 					return a;
 				}
 			}
+			throw Protocol::ERR_ART_DOES_NOT_EXIST;
+			
 		}
 	}
-	return NULL;
+	throw Protocol::ERR_NG_DOES_NOT_EXIST;
 }
