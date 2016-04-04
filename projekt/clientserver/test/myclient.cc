@@ -112,6 +112,7 @@ int main(int argc, char* argv[]) {
 			cout << " no reply from server. Exiting." << endl;
 			exit(1);
 		}
+		CI.handleAnswer();
 	}
 }
 
