@@ -14,5 +14,7 @@ public:
 	void delete_a(int n1, int n2);
 	void get_a(int n1, int n2);
 
+	void handleAnswer();
+
 
 };

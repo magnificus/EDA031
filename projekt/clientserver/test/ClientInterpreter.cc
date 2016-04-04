@@ -51,7 +51,7 @@ void ClientInterpreter::get_a(int n1, int n2){
 
 }
 
-void handleAnswer(){
+void ClientInterpreter::handleAnswer(){
 	unsigned char recieved = c->read();
 	switch(recieved){
 		case Protocol::ANS_LIST_NG: cout << "recieved ANS_LIST_NG";
