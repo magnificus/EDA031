@@ -13,11 +13,19 @@ void ClientInterpreter::create_ng(string s){
 	c->write(Protocol::COM_END);
 }
 
-void ClientInterpreter::delete_ng(string s){
-	
-}
-
-int main(){
+void ClientInterpreter::delete_ng(int s){
 
 }
+void ClientInterpreter::list_a(int n){
+
+}
+void ClientInterpreter::create_a(int n, string s1, string s2, string s3){
+
+}
+	void ClientInterpreter::delete_a(int n1, int n2){
+
+	}
+	void ClientInterpreter::get_a(int n1, int n2){
+		
+	}
 
