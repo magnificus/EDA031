@@ -9,9 +9,20 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
+
+inline bool isInteger(const string& s)
+{
+   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
+
+   char * p ;
+   strtol(s.c_str(), &p, 10) ;
+
+   return (*p == 0) ;
+}
 /*
  * Send an integer to the server as four bytes.
  */
@@ -48,8 +59,8 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	Connection conn(argv[1], port);
-	if (!conn.isConnected()) {
+	Connection *conn = new Connection(argv[1], port);
+	if (!conn->isConnected()) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
 	}
@@ -58,14 +69,14 @@ int main(int argc, char* argv[]) {
 	while (getline(cin, input)) {
 		try {
 			string command;
-			stringstream ss(input);
+			istringstream ss(input);
 			ss >> command;
 			transform(command.begin(), command.end(), command.begin(), ::tolower);
 			if(command == "list"){
 				int nbr;
 				ss >> nbr;
 				if(nbr != NULL){
-					CI.list_art(nbr);
+					CI.list_a(nbr);
 				} else {
 					CI.list_ng();
 				}
@@ -75,8 +86,8 @@ int main(int argc, char* argv[]) {
 				if(isInteger(parameter)){
 					string title, author, text;
 					ss >> title >> author >> text;
-					int p = atoi(parameter);
-					CI.create_art(p, title, author, text);
+					int p = stoi(parameter);
+					CI.create_a(p, title, author, text);
 				} else {
 					CI.create_ng(parameter);
 				}
@@ -84,14 +95,14 @@ int main(int argc, char* argv[]) {
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
 				if(articleNbr != NULL){
-					CI.delete_art(groupNbr, articleNbr);
+					CI.delete_a(groupNbr, articleNbr);
 				} else {
 					CI.delete_ng(groupNbr);
 				}
 			} else if(command == "read"){
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
-				CI.get_art(groupNbr, articleNbr);
+				CI.get_a(groupNbr, articleNbr);
 			}
 
 		} catch (ConnectionClosedException&) {
@@ -101,13 +112,5 @@ int main(int argc, char* argv[]) {
 	}
 }
 
-inline bool isInteger(const string& s)
-{
-   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
 
-   char * p ;
-   strtol(s.c_str(), &p, 10) ;
-
-   return (*p == 0) ;
-}
 
