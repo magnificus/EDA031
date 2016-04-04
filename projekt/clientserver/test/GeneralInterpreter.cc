@@ -5,6 +5,7 @@ using namespace std;
 GeneralInterpreter::GeneralInterpreter(Connection *conn) {c = conn;}
 
 void GeneralInterpreter::write_string(string s){
+	c->write(Protocol::PAR_STRING);
 	for (char ch : s) {
 		c->write(ch);
 	}
@@ -12,6 +13,7 @@ void GeneralInterpreter::write_string(string s){
 }
 
 void GeneralInterpreter::write_number(int n){
+	c->write(Protocol::PAR_NUM);
 	c->write((n >> 24) & 0xFF);
 	c->write((n >> 16) & 0xFF);
 	c->write((n >> 8)	 & 0xFF);
