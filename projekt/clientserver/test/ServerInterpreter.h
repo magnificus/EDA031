@@ -1,5 +1,6 @@
 #include "GeneralInterpreter.h"
 #include "diskdata.h"
+#include "localdata.h"
 #include <vector>
 
 using namespace std;

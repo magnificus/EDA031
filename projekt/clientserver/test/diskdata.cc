@@ -1,8 +1,9 @@
 #include "diskdata.h"
+#include <iostream>
 
 
 bool DiskData::create_ng(string title){
-
+	
 }
 
 bool DiskData::delete_ng(int nbr){

@@ -1,5 +1,4 @@
 #include "datainterface.h"
-
 using namespace std;
 
 
