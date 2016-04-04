@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 			if(command == "list"){
 				int nbr;
 				ss >> nbr;
-				if(nbr != NULL){
+				if(nbr){
 					CI.list_a(nbr);
 				} else {
 					CI.list_ng();
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 			} else if(command == "delete"){
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
-				if(articleNbr != NULL){
+				if(articleNbr){
 					CI.delete_a(groupNbr, articleNbr);
 				} else {
 					CI.delete_ng(groupNbr);
@@ -104,6 +104,8 @@ int main(int argc, char* argv[]) {
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
 				CI.get_a(groupNbr, articleNbr);
+			} else {
+				cout << "No such command";
 			}
 
 		} catch (ConnectionClosedException&) {
