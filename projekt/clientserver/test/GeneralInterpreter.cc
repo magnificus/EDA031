@@ -29,7 +29,7 @@ int GeneralInterpreter::parse_number() {
 	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
 }
 
-string GeneralInterpreter::parse_string(int length) {
+string GeneralInterpreter::parse_string(unsigned char length) {
 	string s;
 	for (unsigned char i = 0; i < length; i++){
 		s += c->read();
