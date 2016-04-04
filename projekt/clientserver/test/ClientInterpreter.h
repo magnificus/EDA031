@@ -4,7 +4,7 @@ using namespace std;
 
 class ClientInterpreter : GeneralInterpreter{
 public:
-	ClientInterpreter(Connection *conn) : GeneralInterpreter(conn) {};
+	ClientInterpreter(shared_ptr<Connection> conn) : GeneralInterpreter(conn) {};
 
 	void list_ng();
 	void create_ng(string s);
