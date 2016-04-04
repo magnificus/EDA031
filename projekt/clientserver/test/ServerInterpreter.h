@@ -1,11 +1,29 @@
 #include "GeneralInterpreter.h"
+#include <vector>
 
 using namespace std;
 
+struct Article {
+	int articleNbr;
+	int newsGroupNbr;
+	string title;
+	string author;
+	string text;
+};
+
+struct Newsgroup {
+	int newsGroupNbr;
+	string groupName;
+	vector<Article> articles;
+};
+
 class ServerInterpreter : GeneralInterpreter{
 public:
-	ServerInterpreter(Connection *conn) : GeneralInterpreter(conn) {};
+	ServerInterpreter(shared_ptr<Connection> conn) : GeneralInterpreter(conn) {};
 
-	void parse(unsigned char in);
-
+	string parse();
+private: 
+	vector<Newsgroup> nGroups;
 };
+
+
