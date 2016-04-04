@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 		cerr << "Connection attempt failed" << endl;
 		exit(1);
 	}
-	ClientInterpreter CI(*conn);
+	ClientInterpreter CI(conn);
 	string input;
 	while (getline(cin, input)) {
 		try {
