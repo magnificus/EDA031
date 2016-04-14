@@ -7,8 +7,8 @@ CC  = g++
 # Define preprocessor, compiler, and linker flags. Uncomment the # lines
 # if you use clang++ and wish to use libc++ instead of libstd++.
 CPPFLAGS  = -std=c++11 -I..
-CXXFLAGS  = -g -O2 -Wall -W -pedantic-errors
-CXXFLAGS += -Wmissing-braces -Wparentheses -Wold-style-cast 
+CXXFLAGS  = -g -O2 -Wall -W
+CXXFLAGS += -Wmissing-braces -Wold-style-cast 
 CXXFLAGS += -std=c++11 
 LDFLAGS   = -g -L..
 #CPPFLAGS += -stdlib=libc++
@@ -19,14 +19,15 @@ LDFLAGS   = -g -L..
 LDLIBS = -lclientserver
 
 # Targets
-PROGS = myserver myclient
+PROGS = diskdata
 
 all: $(PROGS)
 
-# Targets rely on implicit rules for compiling and linking
+# Targets rely on implicit rules 	for compiling and linking
 # The dependency on libclientserver.a is not defined.
 myserver: myserver.o ServerInterpreter.o GeneralInterpreter.o localdata.o
-myclient: myclient.o ClientInterpreter.o GeneralInterpreter.o 
+myclient: myclient.o ClientInterpreter.o GeneralInterpreter.o
+diskdata: diskdata.o
 
 
 # Phony targets
