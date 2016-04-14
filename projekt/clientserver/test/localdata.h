@@ -6,7 +6,7 @@ using namespace std;
 class LocalData : DataInterface{
 public:
 	LocalData() : newsGroupsNbr(0), articleNbr(0) {};
-	vector<Newsgroup> list_ng(){ return newsgroups; };
+	vector<Newsgroup*> list_ng(){ return newsgroups; };
 	bool create_ng(string title);
 	bool delete_ng(int nbr);
 	Newsgroup list_a(int newsGroupsNbr);
@@ -15,7 +15,7 @@ public:
 	Article get_a(int newsGroupsNbr, int articleNbr);
 
 private:
-	vector<Newsgroup> newsgroups;
+	vector<Newsgroup*> newsgroups;
 	int newsGroupsNbr;
 	int articleNbr;
 };

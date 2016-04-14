@@ -11,8 +11,9 @@ void ClientInterpreter::list_ng(){
 
 void ClientInterpreter::create_ng(string s){
 	c->write(Protocol::COM_CREATE_NG);
-	write_string(s);
+	write_string(s); //PAR_STRING string s
 	c->write(Protocol::COM_END);
+	//COM_CREATE_NG PAR_STRING string COM_END
 }
 
 void ClientInterpreter::delete_ng(int n){
@@ -73,13 +74,12 @@ void ClientInterpreter::ANS_LIST_NG(){
 	if (c->read() != Protocol::PAR_NUM){
 		return;
 	}
-	unsigned char nbr = parse_number();
+	int nbr = parse_number();
 	cout << "There are: " << nbr << endl;
 	
-	for (unsigned char i = 0; i < nbr; i++){
+	for (int i = 0; i < nbr; i++){
 		cout << "Id: " << parse_number() << " Name: " << parse_string() << endl;
 	}
-	c->read();
 	handleAnswer();
 }
 
@@ -88,7 +88,6 @@ void ClientInterpreter::ANS_CREATE_NG(){
 		case Protocol::ANS_ACK: cout << "Created newsgroup" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to create newsgroup"; if (c->read() == Protocol::ERR_NG_ALREADY_EXISTS) cout << ", group already exists." << endl; break;
 	}
-	c->read();
 	handleAnswer();
 }
 
@@ -97,7 +96,6 @@ void ClientInterpreter::ANS_DELETE_NG(){
 		case Protocol::ANS_ACK: cout << "Deleted newsgroup" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 	}
-	c->read();
 	handleAnswer();
 }
 
@@ -116,7 +114,6 @@ void ClientInterpreter::ANS_LIST_ART(){
 		}
 
 	}
-	c->read();
 	handleAnswer();
 
 }
@@ -126,7 +123,6 @@ void ClientInterpreter::ANS_CREATE_ART(){
 		case Protocol::ANS_ACK: cout << "Created article" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to create article"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 	}
-	c->read();
 	handleAnswer();
 }
 
@@ -142,7 +138,6 @@ void ClientInterpreter::ANS_DELETE_ART(){
 		}
 	}
 
-	c->read();
 	handleAnswer();
 }
 
@@ -160,6 +155,5 @@ void ClientInterpreter::ANS_GET_ART(){
 			} break;
 		}
 	}
-	c->read();
 	handleAnswer();
 }

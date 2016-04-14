@@ -22,7 +22,7 @@ void GeneralInterpreter::write_number(int n){
 
 
 int GeneralInterpreter::parse_number() {
-	c->read();
+	//c->read();
 	unsigned char byte1 = c->read();
 	unsigned char byte2 = c->read();
 	unsigned char byte3 = c->read();
@@ -31,7 +31,9 @@ int GeneralInterpreter::parse_number() {
 }
 
 string GeneralInterpreter::parse_string() {
-	c->read();
+	if( c->read() == Protocol::PAR_STRING){
+		cout << "parsing par_String";
+	}
 	string s;
 	char ch;
 	while ((ch = c->read()) != '$') {
