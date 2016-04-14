@@ -2,11 +2,13 @@
 #include "protocol.h"
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 
 bool LocalData::create_ng(string title){
 	for(Newsgroup n : newsgroups){
 		if(n.title == title){
+			cout << n.title << " " << title << endl;
 			return false;
 		}
 	}
@@ -14,6 +16,7 @@ bool LocalData::create_ng(string title){
 	newG.newsGroupsNbr = ++newsGroupsNbr;
 	newG.title = title;
 	newsgroups.push_back(newG);
+	cout << newsgroups.size();
 	return true;
 }
 
@@ -28,7 +31,7 @@ Newsgroup LocalData::list_a(int newsGroupsNbr){
 			return n;
 		}
 	}
-	throw Protocol::ERR_NG_DOES_NOT_EXIST;
+	throw char(Protocol::ERR_NG_DOES_NOT_EXIST);
 }
 
 bool LocalData::create_a(int newsGroupsNbr, string title, string author, string text){
@@ -66,9 +69,9 @@ Article LocalData::get_a(int newsGroupsNbr, int articleNbr){
 					return a;
 				}
 			}
-			throw Protocol::ERR_ART_DOES_NOT_EXIST;
+			throw char(Protocol::ERR_ART_DOES_NOT_EXIST);
 			
 		}
 	}
-	throw Protocol::ERR_NG_DOES_NOT_EXIST;
+	throw char(Protocol::ERR_NG_DOES_NOT_EXIST);
 }

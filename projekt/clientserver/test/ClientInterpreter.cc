@@ -64,7 +64,7 @@ void ClientInterpreter::handleAnswer(){
 		case Protocol::ANS_END: cout << "recieved ANS_END" << endl; break;
 		case Protocol::ANS_ACK: cout << "recieved ANS_ACK" << endl; break;
 		case Protocol::ANS_NAK: cout << "recieved ANS_NAK" << endl; break;
-		default: cout << "could not interpret";
+		default: cout << recieved;
 	};
 }
 
@@ -73,15 +73,14 @@ void ClientInterpreter::ANS_LIST_NG(){
 	if (c->read() != Protocol::PAR_NUM){
 		return;
 	}
-	unsigned char nbr = c->read();
-	cout << "There are: " << nbr;
+	unsigned char nbr = parse_number();
+	cout << "There are: " << nbr << endl;
 	
 	for (unsigned char i = 0; i < nbr; i++){
 		cout << "Id: " << parse_number() << " Name: " << parse_string() << endl;
 	}
-
 	c->read();
-
+	handleAnswer();
 }
 
 void ClientInterpreter::ANS_CREATE_NG(){
@@ -89,9 +88,8 @@ void ClientInterpreter::ANS_CREATE_NG(){
 		case Protocol::ANS_ACK: cout << "Created newsgroup" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to create newsgroup"; if (c->read() == Protocol::ERR_NG_ALREADY_EXISTS) cout << ", group already exists." << endl; break;
 	}
-
 	c->read();
-
+	handleAnswer();
 }
 
 void ClientInterpreter::ANS_DELETE_NG(){
@@ -99,8 +97,8 @@ void ClientInterpreter::ANS_DELETE_NG(){
 		case Protocol::ANS_ACK: cout << "Deleted newsgroup" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 	}
-
 	c->read();
+	handleAnswer();
 }
 
 void ClientInterpreter::ANS_LIST_ART(){
@@ -118,8 +116,8 @@ void ClientInterpreter::ANS_LIST_ART(){
 		}
 
 	}
-
 	c->read();
+	handleAnswer();
 
 }
 
@@ -128,9 +126,8 @@ void ClientInterpreter::ANS_CREATE_ART(){
 		case Protocol::ANS_ACK: cout << "Created article" << endl; break;
 		case Protocol::ANS_NAK: cout << "Unable to create article"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 	}
-
 	c->read();
-
+	handleAnswer();
 }
 
 void ClientInterpreter::ANS_DELETE_ART(){
@@ -146,8 +143,7 @@ void ClientInterpreter::ANS_DELETE_ART(){
 	}
 
 	c->read();
-
-
+	handleAnswer();
 }
 
 void ClientInterpreter::ANS_GET_ART(){
@@ -164,6 +160,6 @@ void ClientInterpreter::ANS_GET_ART(){
 			} break;
 		}
 	}
-
 	c->read();
+	handleAnswer();
 }

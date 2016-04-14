@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 			if(command == "list"){
 				int nbr;
 				ss >> nbr;
-				if(nbr){
+				if(ss){
 					CI.list_a(nbr);
 				} else {
 					CI.list_ng();

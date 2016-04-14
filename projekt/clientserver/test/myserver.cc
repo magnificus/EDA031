@@ -58,9 +58,7 @@ int main(int argc, char* argv[]){
 		ServerInterpreter SI(conn);
 		if (conn != nullptr) {
 			try {
-				string result = SI.parse();
-				cout << result;
-				cout << flush;
+				SI.parse();
 			} catch (ConnectionClosedException&) {
 				server.deregisterConnection(conn);
 				cout << "Client closed connection" << endl;

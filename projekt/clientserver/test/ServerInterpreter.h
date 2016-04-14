@@ -9,7 +9,7 @@ class ServerInterpreter : GeneralInterpreter{
 public:
 	ServerInterpreter(shared_ptr<Connection> conn) : GeneralInterpreter(conn) {};
 
-	string parse();
+	void parse();
 };
 
 
