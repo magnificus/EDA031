@@ -17,8 +17,9 @@ int not_main(){
 	d.create_ng("asda");
 	d.create_ng("aszxccd");
 	d.create_ng("asxxd");
-	d.create_a(1, "bazinga", "bazinga", "bazinga");
-	d.create_a(0, "bazinga", "bazinga", "bazinga");
+	d.create_a(1, "ds1d", "dd", "bazinga");
+	d.create_a(1, "sasd", "zxd", "bazinga");
+	//d.delete_a(1, 1);
 	vector<DataInterface::Newsgroup> groups = d.list_ng();
 
 	for (DataInterface::Newsgroup n : groups){
@@ -78,7 +79,7 @@ bool LocalData::create_a(int newsGroupsNbr, string title, string author, string 
 
 int LocalData::delete_a(int newsGroupsNbr, int articleNbr){
 
-	for(DataInterface::Newsgroup n : newsgroups){
+	for(DataInterface::Newsgroup &n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
 			auto pos = n.articles.erase(remove_if(n.articles.begin(), n.articles.end(), [articleNbr](Article a){return a.articleNbr == articleNbr;}), n.articles.end());
 			return pos != n.articles.end() ? 0 : -1; //ArticleNbr exist?
