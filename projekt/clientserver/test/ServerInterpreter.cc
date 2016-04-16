@@ -61,13 +61,11 @@ void ServerInterpreter::parse(){
 			intParam1 = parse_number();
 			if(c->read() == Protocol::COM_END){
 				c->write(Protocol::ANS_LIST_ART);
-				DataInterface::Newsgroup ng = ld.list_a(intParam1);
 				try {
+					DataInterface::Newsgroup ng = ld.list_a(intParam1);
 					c->write(Protocol::ANS_ACK);
 					write_number(ng.articles.size());
-					cout << ng.articles.size() << endl;
 					for(DataInterface::Article a : ng.articles){
-						cout << a.title << endl;
 						write_number(a.articleNbr);
 						write_string(a.title);
 					}
@@ -118,6 +116,7 @@ void ServerInterpreter::parse(){
 				c->write(Protocol::ANS_GET_ART);
 				try {
 					DataInterface::Article a = ld.get_a(intParam1, intParam2);
+					c->write(Protocol::ANS_ACK);
 					write_string(a.title);
 					write_string(a.author);
 					write_string(a.text);

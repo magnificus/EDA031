@@ -10,7 +10,7 @@ vector<DataInterface::Newsgroup> LocalData::list_ng(){
 	return newsgroups;
 }
 
-int main(){
+int not_main(){
 	LocalData d;
 	d.create_ng("asd");
 	d.create_ng("213123");
