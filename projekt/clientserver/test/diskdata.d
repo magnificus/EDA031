@@ -1,1 +1,1 @@
-diskdata.o diskdata.d : diskdata.cc diskdata.h datainterface.h
+diskdata.o diskdata.d : diskdata.cc diskdata.h datainterface.h ../protocol.h

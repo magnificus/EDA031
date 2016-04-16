@@ -1,6 +1,7 @@
 #include "datainterface.h"
 #include <dirent.h>
 #include <string>
+#include "protocol.h"
 
 using namespace std;
 
