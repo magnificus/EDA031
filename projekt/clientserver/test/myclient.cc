@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 			if(command == "list"){
 				int nbr;
 				ss >> nbr;
-				if(ss){
+				if(ss){	
 					CI.list_a(nbr);
 				} else {
 					CI.list_ng();
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 			} else if(command == "delete"){
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
-				if(articleNbr){
+				if(ss){
 					CI.delete_a(groupNbr, articleNbr);
 				} else {
 					CI.delete_ng(groupNbr);

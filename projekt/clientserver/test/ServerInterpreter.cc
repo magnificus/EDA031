@@ -6,7 +6,7 @@
 using namespace std;
 
 void ServerInterpreter::parse(){
-	LocalData ld;
+	static LocalData ld;
 	string result, parameter1, parameter2, parameter3, parameter4;
 	int intParam1, intParam2;
 	unsigned char in = c->read();
@@ -24,6 +24,7 @@ void ServerInterpreter::parse(){
 				}
 			}
 		}
+		//ANS_LIST_NG PAR_NUM size PAR_NUM n1 PAR_STR s1 PAR_NUM n2 PAR_STR s2
 		break;
 
 //COM_CREATE_NG PAR_STRING string COM_END
@@ -33,7 +34,6 @@ void ServerInterpreter::parse(){
 				c->write(Protocol::ANS_CREATE_NG);
 				if(ld.create_ng(parameter1)){
 					c->write(Protocol::ANS_ACK);
-					cout << "skapat ng" << endl;
 				} else {
 					c->write(Protocol::ANS_NAK);
 					c->write(Protocol::ERR_NG_ALREADY_EXISTS);
@@ -62,18 +62,20 @@ void ServerInterpreter::parse(){
 				c->write(Protocol::ANS_LIST_ART);
 				Newsgroup ng = ld.list_a(intParam1);
 				try {
+					c->write(Protocol::ANS_ACK);
 					write_number(ng.articles.size());
 					for(Article a : ng.articles){
 						write_number(a.articleNbr);
 						write_string(a.title);
 					}
 				} catch (char e){
-				c->write(Protocol::ANS_NAK);
-				c->write(e);
+					c->write(Protocol::ANS_NAK);
+					c->write(e);
 				}
 			}
 		}	
 		break;
+		//ANS_LIST_ART PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
 
 		case Protocol::COM_CREATE_ART: {
 			intParam1 = parse_number();

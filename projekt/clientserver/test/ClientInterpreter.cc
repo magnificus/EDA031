@@ -68,17 +68,15 @@ void ClientInterpreter::handleAnswer(){
 		default: cout << recieved;
 	};
 }
-
+		//ANS_LIST_NG PAR_NUM size PAR_NUM n1 PAR_STR s1 PAR_NUM n2 PAR_STR s2
 void ClientInterpreter::ANS_LIST_NG(){
 	cout << "Listing Newsgroups: " << endl;
-	if (c->read() != Protocol::PAR_NUM){
-		return;
-	}
 	int nbr = parse_number();
 	cout << "There are: " << nbr << endl;
 	
 	for (int i = 0; i < nbr; i++){
-		cout << "Id: " << parse_number() << " Name: " << parse_string() << endl;
+		cout << "Id: " << parse_number() << " Name: ";
+		cout << parse_string() << endl;
 	}
 	handleAnswer();
 }
@@ -103,16 +101,17 @@ void ClientInterpreter::ANS_LIST_ART(){
 	cout << "Listing articles in newsgroup: " << endl;
 	switch(c->read()){
 		case Protocol::ANS_ACK: {
-			unsigned char nbr = c->read();
-			for (unsigned char i = 0; i < nbr; i++){
-				cout << "Id: " << parse_number() << " Name: " << parse_string() << endl; 
+			int nbr = parse_number();
+			for (int i = 0; i < nbr; i++){
+				cout << "Id: " << parse_number() << " Name: ";
+				cout << parse_string() << endl; 
 			} break;
 
 		}
 		case Protocol::ANS_NAK: {
 			cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 		}
-
+//ANS_LIST_ART PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
 	}
 	handleAnswer();
 
@@ -144,11 +143,12 @@ void ClientInterpreter::ANS_DELETE_ART(){
 void ClientInterpreter::ANS_GET_ART(){
 	switch(c->read()){
 		case Protocol::ANS_GET_ART: {
-			c->read();
-			cout << "Title: " << parse_string() << endl << "Author: " << parse_string() << endl << "Text: " << parse_string() << endl;
+			cout << "Title: " << parse_string() << endl;
+			cout << "Author: " << parse_string() << endl;
+			cout << "Text: " << parse_string() << endl;
 		} break;
 		case Protocol::ANS_NAK: {
-			cout << "Unable to delete article";
+			cout << "Unable to read article";
 			switch(c->read()){
 				case Protocol::ERR_NG_DOES_NOT_EXIST: cout << ", group does not exist" << endl;
 				case Protocol::ERR_ART_DOES_NOT_EXIST: cout << ", article does not exist" << endl;;

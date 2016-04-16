@@ -19,7 +19,7 @@ LDFLAGS   = -g -L..
 LDLIBS = -lclientserver
 
 # Targets
-PROGS = diskdata
+PROGS = diskdata myserver myclient
 
 all: $(PROGS)
 
