@@ -6,17 +6,17 @@
 
 
 
-vector<Newsgroup> LocalData::list_ng(){
+vector<DataInterface::Newsgroup> LocalData::list_ng(){
 	return newsgroups;
 }
 
 bool LocalData::create_ng(string title){
-	for(Newsgroup n : newsgroups){
+	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.title == title){
 			return false;
 		}
 	}
-	Newsgroup ng;
+	DataInterface::Newsgroup ng;
 	ng.newsGroupsNbr = ++newsGroupsNbr;
 	ng.title = title;
 	newsgroups.push_back(ng);
@@ -29,8 +29,8 @@ bool LocalData::delete_ng(int nbr){
 	return pos != newsgroups.end();
 }
 
-Newsgroup LocalData::list_a(int newsGroupsNbr){
-	for(Newsgroup n : newsgroups){
+DataInterface::Newsgroup LocalData::list_a(int newsGroupsNbr){
+	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
 			return n;
 		}
@@ -39,9 +39,9 @@ Newsgroup LocalData::list_a(int newsGroupsNbr){
 }
 
 bool LocalData::create_a(int newsGroupsNbr, string title, string author, string text){
-	for(Newsgroup n : newsgroups){
+	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
-			Article a;
+			DataInterface::Article a;
 			a.articleNbr = ++articleNbr;
 			a.newsGroupsNbr = newsGroupsNbr;
 			a.title = title;
@@ -56,7 +56,7 @@ bool LocalData::create_a(int newsGroupsNbr, string title, string author, string 
 
 int LocalData::delete_a(int newsGroupsNbr, int articleNbr){
 
-	for(Newsgroup n : newsgroups){
+	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
 			auto pos = n.articles.erase(remove_if(n.articles.begin(), n.articles.end(), [articleNbr](Article a){return a.articleNbr == articleNbr;}), n.articles.end());
 			return pos != n.articles.end() ? 0 : -1; //ArticleNbr exist?
@@ -65,10 +65,10 @@ int LocalData::delete_a(int newsGroupsNbr, int articleNbr){
 	return -2; //Newsgroupsnbr does not exist
 }
 
-Article LocalData::get_a(int newsGroupsNbr, int articleNbr){
-	for(Newsgroup n : newsgroups){
+DataInterface::Article LocalData::get_a(int newsGroupsNbr, int articleNbr){
+	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
-			for(Article a : n.articles){
+			for(DataInterface::Article a : n.articles){
 				if(a.articleNbr == articleNbr){
 					return a;
 				}

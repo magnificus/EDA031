@@ -111,7 +111,7 @@ void ClientInterpreter::ANS_LIST_ART(){
 		case Protocol::ANS_NAK: {
 			cout << "Unable to delete newsgroup"; if (c->read() == Protocol::ERR_NG_DOES_NOT_EXIST) cout << ", group does not exist." << endl; break;
 		}
-//ANS_LIST_ART PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
+//ANS_LIST_ART ANS_ACK PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
 	}
 	handleAnswer();
 

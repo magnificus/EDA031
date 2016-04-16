@@ -7,6 +7,7 @@ using namespace std;
 
 void ServerInterpreter::parse(){
 	static LocalData ld;
+	//vector<DataInterface::Article> DataInterface::Newsgroup::articles;
 	string result, parameter1, parameter2, parameter3, parameter4;
 	int intParam1, intParam2;
 	unsigned char in = c->read();
@@ -15,10 +16,10 @@ void ServerInterpreter::parse(){
 
 			if(c->read() == Protocol::COM_END){
 				c->write(Protocol::ANS_LIST_NG);
-				vector<Newsgroup> list = ld.list_ng();
+				vector<DataInterface::Newsgroup> list = ld.list_ng();
 				write_number(list.size());
 				cout << list.size() << endl;
-				for(Newsgroup n : list){
+				for(DataInterface::Newsgroup n : list){
 					write_number(n.newsGroupsNbr);
 					write_string(n.title);
 				}
@@ -60,11 +61,13 @@ void ServerInterpreter::parse(){
 			intParam1 = parse_number();
 			if(c->read() == Protocol::COM_END){
 				c->write(Protocol::ANS_LIST_ART);
-				Newsgroup ng = ld.list_a(intParam1);
+				DataInterface::Newsgroup ng = ld.list_a(intParam1);
 				try {
 					c->write(Protocol::ANS_ACK);
 					write_number(ng.articles.size());
-					for(Article a : ng.articles){
+					cout << ng.articles.size() << endl;
+					for(DataInterface::Article a : ng.articles){
+						cout << a.title << endl;
 						write_number(a.articleNbr);
 						write_string(a.title);
 					}
@@ -75,7 +78,7 @@ void ServerInterpreter::parse(){
 			}
 		}	
 		break;
-		//ANS_LIST_ART PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
+		//ANS_LIST_ART ANS_ACK PAR_NUM size PAR_NUM a1 PAR_STR s1 ANS_END
 
 		case Protocol::COM_CREATE_ART: {
 			intParam1 = parse_number();
@@ -114,7 +117,7 @@ void ServerInterpreter::parse(){
 			if(c->read() == Protocol::COM_END){
 				c->write(Protocol::ANS_GET_ART);
 				try {
-					Article a = ld.get_a(intParam1, intParam2);
+					DataInterface::Article a = ld.get_a(intParam1, intParam2);
 					write_string(a.title);
 					write_string(a.author);
 					write_string(a.text);

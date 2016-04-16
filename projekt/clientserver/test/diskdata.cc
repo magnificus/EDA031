@@ -62,7 +62,7 @@ string getArticle(string dir, int nbr) {
 }
 
 
-Article readArticle(string path, string title, int aNumber, int nNumber){
+DataInterface::Article readArticle(string path, string title, int aNumber, int nNumber){
 	ifstream myfile;
   	myfile.open (path);
 
@@ -72,7 +72,7 @@ Article readArticle(string path, string title, int aNumber, int nNumber){
   	getline(myfile, text);
   	myfile.close();
 
-  	Article a = {aNumber, nNumber, title, author, text};
+  	DataInterface::Article a = {aNumber, nNumber, title, author, text};
   	return a;
 }
 
@@ -85,7 +85,7 @@ void createArticle(string path, string author, string text){
 	}
 
 
-vector<Newsgroup> DiskData::list_ng(){
+vector<DataInterface::Newsgroup> DiskData::list_ng(){
 	DIR *dir = opendir (datadir.c_str());
 
 	struct dirent *pent = NULL;
@@ -174,7 +174,7 @@ bool DiskData::delete_ng(int nbr){
 
 }
 
-Newsgroup DiskData::list_a(int nbr){
+DataInterface::Newsgroup DiskData::list_a(int nbr){
 
 	Newsgroup n;
 	n.newsGroupsNbr = nbr;
@@ -250,7 +250,7 @@ int DiskData::delete_a(int newsGroupsNbr, int articleNbr){
 	return -2;
 }
 
-Article DiskData::get_a(int newsGroupsNbr, int articleNbr){
+DataInterface::Article DiskData::get_a(int newsGroupsNbr, int articleNbr){
 
 
 	Newsgroup n;

@@ -16,7 +16,7 @@ public:
 	vector<Newsgroup> newsgroups;
 
 private:
-
+	
 	int newsGroupsNbr;
 	int articleNbr;
 };
