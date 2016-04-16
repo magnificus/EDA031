@@ -1,4 +1,4 @@
-#include "datainterface.h"
+	#include "datainterface.h"
 #include <string>
 using namespace std;
 
@@ -13,6 +13,8 @@ public:
 	bool create_a(int newsGroupsNbr, string title, string author, string text);
 	int delete_a(int newsGroupsNbr, int articleNbr);
 	Article get_a(int newsGroupsNbr, int articleNbr);
+
+
 	vector<Newsgroup> newsgroups;
 
 private:

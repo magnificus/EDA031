@@ -10,6 +10,26 @@ vector<DataInterface::Newsgroup> LocalData::list_ng(){
 	return newsgroups;
 }
 
+int main(){
+	LocalData d;
+	d.create_ng("asd");
+	d.create_ng("213123");
+	d.create_ng("asda");
+	d.create_ng("aszxccd");
+	d.create_ng("asxxd");
+	d.create_a(1, "bazinga", "bazinga", "bazinga");
+	d.create_a(0, "bazinga", "bazinga", "bazinga");
+	vector<DataInterface::Newsgroup> groups = d.list_ng();
+
+	for (DataInterface::Newsgroup n : groups){
+		cout << "Group: " << n.title << endl;
+		for (DataInterface::Article a : n.articles){
+			cout << "Article: " << a.title << endl;
+		}
+	}
+	//create
+}
+
 bool LocalData::create_ng(string title){
 	for(DataInterface::Newsgroup n : newsgroups){
 		if(n.title == title){
@@ -39,7 +59,7 @@ DataInterface::Newsgroup LocalData::list_a(int newsGroupsNbr){
 }
 
 bool LocalData::create_a(int newsGroupsNbr, string title, string author, string text){
-	for(DataInterface::Newsgroup n : newsgroups){
+	for(DataInterface::Newsgroup &n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
 			DataInterface::Article a;
 			a.articleNbr = ++articleNbr;
@@ -47,7 +67,9 @@ bool LocalData::create_a(int newsGroupsNbr, string title, string author, string 
 			a.title = title;
 			a.author = author;
 			a.text = text;
-			n.articles.push_back(a);
+
+			vector<DataInterface::Article> &arts = n.articles;
+			arts.push_back(a);
 			return true;
 		}
 	}
