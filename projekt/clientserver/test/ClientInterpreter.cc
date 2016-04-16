@@ -131,8 +131,8 @@ void ClientInterpreter::ANS_DELETE_ART(){
 		case Protocol::ANS_NAK: {
 			cout << "Unable to delete article";
 			switch(c->read()){
-				case Protocol::ERR_NG_DOES_NOT_EXIST: cout << ", group does not exist"; break;
-				case Protocol::ERR_ART_DOES_NOT_EXIST: cout << ", article does not exist"; break;
+				case Protocol::ERR_NG_DOES_NOT_EXIST: cout << ", group does not exist" << endl; break;
+				case Protocol::ERR_ART_DOES_NOT_EXIST: cout << ", article does not exist" << endl; break;
 			}
 		}
 	}

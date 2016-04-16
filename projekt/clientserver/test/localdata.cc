@@ -81,8 +81,9 @@ int LocalData::delete_a(int newsGroupsNbr, int articleNbr){
 
 	for(DataInterface::Newsgroup &n : newsgroups){
 		if(n.newsGroupsNbr == newsGroupsNbr){
+			auto end = n.articles.end();
 			auto pos = n.articles.erase(remove_if(n.articles.begin(), n.articles.end(), [articleNbr](Article a){return a.articleNbr == articleNbr;}), n.articles.end());
-			return pos != n.articles.end() ? 0 : -1; //ArticleNbr exist?
+			return pos != end ? 0 : -1; //ArticleNbr exist?
 		}
 	}
 	return -2; //Newsgroupsnbr does not exist

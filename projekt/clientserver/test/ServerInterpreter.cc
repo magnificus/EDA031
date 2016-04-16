@@ -112,6 +112,7 @@ void ServerInterpreter::parse(){
 		case Protocol::COM_GET_ART: {
 			intParam1 = parse_number();
 			intParam2 = parse_number();
+			cout << intParam2 << endl;
 			if(c->read() == Protocol::COM_END){
 				c->write(Protocol::ANS_GET_ART);
 				try {
