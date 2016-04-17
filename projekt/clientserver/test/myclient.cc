@@ -87,6 +87,10 @@ int main(int argc, char* argv[]) {
 				if(isInteger(parameter)){
 					string title, author, text;
 					ss >> title >> author >> text;
+					if (!ss){
+						cout << "No such command" << endl;
+						continue;
+					}
 					int p = stoi(parameter);
 					CI.create_a(p, title, author, text);
 				} else {
@@ -94,7 +98,13 @@ int main(int argc, char* argv[]) {
 				}
 			} else if(command == "delete"){
 				int groupNbr, articleNbr;
-				ss >> groupNbr >> articleNbr;
+				ss >> groupNbr;
+				if (!ss){
+					cout << "No such command" << endl;
+					continue;
+				}
+					
+				ss >> articleNbr;
 				if(ss){
 					CI.delete_a(groupNbr, articleNbr);
 				} else {
@@ -103,9 +113,13 @@ int main(int argc, char* argv[]) {
 			} else if(command == "read"){
 				int groupNbr, articleNbr;
 				ss >> groupNbr >> articleNbr;
+				if (!ss){
+					cout << "No such command" << endl;
+					continue;
+				}
 				CI.get_a(groupNbr, articleNbr);
 			} else {
-				cout << "No such command";
+				cout << "No such command" << endl;
 			}
 
 		} catch (ConnectionClosedException&) {
