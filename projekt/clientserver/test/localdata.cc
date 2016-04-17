@@ -46,8 +46,9 @@ bool LocalData::create_ng(string title){
 }
 
 bool LocalData::delete_ng(int nbr){
+	auto end = newsgroups.end();
 	auto pos = newsgroups.erase(remove_if(newsgroups.begin(), newsgroups.end(), [nbr](Newsgroup g){return g.newsGroupsNbr == nbr;}), newsgroups.end());
-	return pos != newsgroups.end();
+	return pos != end;
 }
 
 DataInterface::Newsgroup LocalData::list_a(int newsGroupsNbr){

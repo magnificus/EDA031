@@ -6,7 +6,11 @@ GeneralInterpreter::GeneralInterpreter(shared_ptr<Connection> conn) {c = conn;}
 
 void GeneralInterpreter::write_string(string s){
 	c->write(Protocol::PAR_STRING);
-	c->write(s.length());
+	int length = s.length();
+	c->write((length >> 24) & 0xFF);
+	c->write((length >> 16) & 0xFF);
+	c->write((length >> 8) & 0xFF);
+	c->write(length & 0xFF);
 	for (char ch : s) {
 		c->write(ch);
 	}
@@ -34,8 +38,11 @@ int GeneralInterpreter::parse_number() {
 string GeneralInterpreter::parse_string() {
 	if(c->read() == Protocol::PAR_STRING){	
 		string s;
-		//char ch;
-		size_t length = c->read();
+		unsigned char byte1 = c->read();
+		unsigned char byte2 = c->read();
+		unsigned char byte3 = c->read();
+		unsigned char byte4 = c->read();
+		int length = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
 		for (size_t i = 0; i < length; i++) {
 			s += c->read();
 		}
