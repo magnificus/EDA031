@@ -6,7 +6,7 @@
 using namespace std;
 
 void ServerInterpreter::parse(){
-	static LocalData ld;
+	static DiskData ld;
 	//vector<DataInterface::Article> DataInterface::Newsgroup::articles;
 	string result, parameter1, parameter2, parameter3, parameter4;
 	int intParam1, intParam2;

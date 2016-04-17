@@ -3,20 +3,25 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <algorithm>
+
 using namespace std;
 
 string datadir = "data";
 
 
+
+
+
 int mode = S_IRWXU;
 
-
 string getArticleName(string path){
-	    size_t pos = path.find(" ");
+	string title = path.substr(path.find_last_of("/") + 1);
+	    size_t pos = title.find_last_of(" ");
 	    if (pos == string::npos){
 	    	return "";
 	    } 
-	    return path.substr(0, pos);
+	    return title.substr(0, pos);
 	    
 }
 
@@ -31,7 +36,7 @@ string getNewsGroup(int nbr){
     {
         string dirname(pent->d_name);
         if (dirname == "." || dirname == "..") continue; 
-        string integer = dirname.substr(dirname.find(" "));
+        string integer = dirname.substr(dirname.find_last_of(" ") + 1);
         int currentnbr = stoi(integer);
 
         if (nbr == currentnbr){
@@ -50,7 +55,7 @@ string getArticle(string dir, int nbr) {
     	while ((aent = readdir(nestedDir))){
     		string aname(aent->d_name);
     		if (aname.find(" ") == string::npos) continue;
-    		string integer = aname.substr(aname.find(" "));
+    		string integer = aname.substr(aname.find_last_of(" ") + 1);
     		int aNumber = stoi(integer);
 
     		if (aNumber == nbr){
@@ -63,13 +68,20 @@ string getArticle(string dir, int nbr) {
 
 
 DataInterface::Article readArticle(string path, string title, int aNumber, int nNumber){
-	ifstream myfile;
-  	myfile.open (path);
+	ifstream myfile(path);
+  	//myfile.open (path);
+  	cout << "opening: " << path << endl;
 
-  	string author;
-  	string text;
-  	getline(myfile, author);
-  	getline(myfile, text);
+  	if (!myfile){
+  		cout << "failed to open file: " << path << endl;
+  		return DataInterface::Article();
+  	}
+  	string file_contents { istreambuf_iterator<char>(myfile), istreambuf_iterator<char>() };
+  	size_t endOfAuthor = file_contents.find(":::");
+
+  	string author (file_contents.substr(0, endOfAuthor));
+  	string text (file_contents.substr(endOfAuthor+3));
+  	cout << "author: " << author << endl;
   	myfile.close();
 
   	DataInterface::Article a = {aNumber, nNumber, title, author, text};
@@ -79,8 +91,8 @@ DataInterface::Article readArticle(string path, string title, int aNumber, int n
 void createArticle(string path, string author, string text){
 	ofstream myfile;
   	myfile.open (path);
-  	myfile << author << endl;
-  	myfile << text << endl;
+  	myfile << author << ":::";
+  	myfile << text;
   	myfile.close();
 	}
 
@@ -95,12 +107,14 @@ vector<DataInterface::Newsgroup> DiskData::list_ng(){
     {
         string dirname(pent->d_name);
         if (dirname == "." || dirname == "..") continue; 
-        string integer = dirname.substr(dirname.find(" "));
+        string integer = dirname.substr(dirname.find_last_of(" "));
         int currentnbr = stoi(integer);
 
         groups.push_back(list_a(currentnbr));
 
      }
+
+     sort(groups.begin(), groups.end(), [](const DataInterface::Newsgroup n1, const DataInterface::Newsgroup n2) { return n1.newsGroupsNbr < n2.newsGroupsNbr; });
 
      return groups;
 }
@@ -186,23 +200,27 @@ DataInterface::Newsgroup DiskData::list_a(int nbr){
 
     	struct dirent *aent = NULL;
 
-    	size_t pos = s.find(" ");
-    	string title = s.substr(0, pos);
-    	n.title = s;
+    	
+    	string title = s.substr(s.find("/") + 1);
+    	size_t pos = title.find_last_of(" ");
+    	title = title.substr(0, pos);
+    	n.title = title;
 
     	while ((aent = readdir(nestedDir))){
     		string aname(aent->d_name);
 
     		
     		if (aname == "." || aname == "..") continue;
-    		string integer = aname.substr(aname.find(" "));
+    		string integer = aname.substr(aname.find_last_of(" "));
     		int aNumber = stoi(integer);
-    		size_t pos = aname.find(" ");
+    		size_t pos = aname.find_last_of(" ");
     		string title = aname.substr(0, pos);
     		Article a = readArticle(s + "/" + aname, title, aNumber, nbr);
     		n.articles.push_back(a);
 
     	}
+    	sort(n.articles.begin(), n.articles.end(), [](const DataInterface::Article a1, const DataInterface::Article a2) { return a1.articleNbr < a2.articleNbr; });
+
     	return n;
 	}
 	cout << "didn't find the ng" << endl;
@@ -229,6 +247,7 @@ bool DiskData::create_a(int newsGroupsNbr, string title, string author, string t
         	}
 
         createArticle(s + "/" + title + " " + to_string(currentArticleIndex++) + ".txt", author, text);
+        return true;
 	}
 
 	return false;
@@ -253,24 +272,28 @@ int DiskData::delete_a(int newsGroupsNbr, int articleNbr){
 DataInterface::Article DiskData::get_a(int newsGroupsNbr, int articleNbr){
 
 
-	Newsgroup n;
-
-	string s = getNewsGroup(newsGroupsNbr);
-	if (s != ""){
-		string a = getArticle(s, articleNbr);
-		if (a != ""){
-			Article ar = readArticle(s, getArticleName(a), articleNbr, newsGroupsNbr);
-			return ar;
-
+	Newsgroup n = list_a(newsGroupsNbr);
+	for (DataInterface::Article a : n.articles){
+		if (a.articleNbr == articleNbr){
+			return a;
 		}
-		throw char(Protocol::ERR_ART_DOES_NOT_EXIST);
 	}
 
-	throw char(Protocol::ERR_NG_DOES_NOT_EXIST);
+	//string s = getNewsGroup(newsGroupsNbr);
+	//if (s != ""){
+	//	string a = getArticle(s, articleNbr);
+	//	if (a != ""){
+	//		return readArticle(s, getArticleName(a), articleNbr, newsGroupsNbr);
+//
+	//	}
+	throw char(Protocol::ERR_ART_DOES_NOT_EXIST);
+	//}
+
+	//throw char(Protocol::ERR_NG_DOES_NOT_EXIST);
 
 }
 
-int main(){
+int not_main2(){
 	DiskData d;
 	d.create_ng("sdd");
 	d.create_ng("asd");
@@ -283,4 +306,6 @@ int main(){
 	for (int i = 0; i < 10; ++i){
 		d.delete_ng(i);
 	}
+
+	return 0;
 }

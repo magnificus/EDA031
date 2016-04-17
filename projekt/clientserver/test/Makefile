@@ -25,7 +25,7 @@ all: $(PROGS)
 
 # Targets rely on implicit rules 	for compiling and linking
 # The dependency on libclientserver.a is not defined.
-myserver: myserver.o ServerInterpreter.o GeneralInterpreter.o localdata.o
+myserver: myserver.o ServerInterpreter.o GeneralInterpreter.o localdata.o diskdata.o
 myclient: myclient.o ClientInterpreter.o GeneralInterpreter.o
 diskdata: diskdata.o
 
