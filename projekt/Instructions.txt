@@ -1,0 +1,12 @@
+i = integer
+s = string
+
+Newsgroups:
+Create s - create newsgroup asd.
+Create i s1 s2 s3 - create article with title s1, author s2, text s3 in newsgroup with index i.
+List i - list articles in newsgroup with index i.
+Delete i - delete newsgroup with index i.
+
+Articles:
+Read i1 i2 - read article with index i2 in newsgroup with index i2.
+Delete i1 i2 - delete article with index i2 in newsgroup with index i1.
